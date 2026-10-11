@@ -1,0 +1,118 @@
+﻿@model FeedbackManagementSystem.Models.Feedback
+
+@using (Html.BeginForm(
+    "Create",
+    "Feedback",
+    FormMethod.Post,
+    new { @class = "feedback-form" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(
+        false,
+        "",
+        new { @class = "text-danger mb-3" })
+
+    <div class="mb-3">
+        @Html.LabelFor(
+            m => m.Name,
+            new { @class = "form-label fw-semibold" })
+
+        @Html.TextBoxFor(
+            m => m.Name,
+            new
+            {
+                @class = "form-control",
+                placeholder = "Enter your full name"
+            })
+
+        @Html.ValidationMessageFor(
+            m => m.Name,
+            "",
+            new { @class = "text-danger" })
+    </div>
+
+    <div class="mb-3">
+        @Html.LabelFor(
+            m => m.Email,
+            new { @class = "form-label fw-semibold" })
+
+        @Html.TextBoxFor(
+            m => m.Email,
+            new
+            {
+                @class = "form-control",
+                type = "email",
+                placeholder = "Enter your email address"
+            })
+
+        @Html.ValidationMessageFor(
+            m => m.Email,
+            "",
+            new { @class = "text-danger" })
+    </div>
+
+    <div class="mb-3">
+        @Html.LabelFor(
+            m => m.Rating,
+            new { @class = "form-label fw-semibold d-block" })
+
+        <div class="d-flex flex-wrap gap-3">
+            @for (var rating = 1; rating <= 5; rating++)
+            {
+                <div class="form-check">
+                    @Html.RadioButtonFor(
+                        m => m.Rating,
+                        rating,
+                        new
+                        {
+                            @class = "form-check-input",
+                            id = "rating" + rating
+                        })
+
+                    <label class="form-check-label"
+                           for="rating@(rating)">
+                        @rating
+                    </label>
+                </div>
+            }
+        </div>
+
+        @Html.ValidationMessageFor(
+            m => m.Rating,
+            "",
+            new { @class = "text-danger" })
+    </div>
+
+    <div class="mb-4">
+        @Html.LabelFor(
+            m => m.Comments,
+            new { @class = "form-label fw-semibold" })
+
+        @Html.TextAreaFor(
+            m => m.Comments,
+            5,
+            50,
+            new
+            {
+                @class = "form-control",
+                placeholder =
+                    "Write your feedback (10-500 characters)",
+                maxlength = "500"
+            })
+
+        @Html.ValidationMessageFor(
+            m => m.Comments,
+            "",
+            new { @class = "text-danger" })
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+        Submit Feedback
+    </button>
+
+    <a asp-action="Index"
+       class="btn btn-outline-secondary ms-2">
+        View Feedback
+    </a>
+}
